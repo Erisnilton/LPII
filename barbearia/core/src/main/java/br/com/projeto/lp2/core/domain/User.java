@@ -7,8 +7,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class User {
     private String id;
     private String name;
@@ -16,5 +14,4 @@ public class User {
     private String phone;
     private Address address;
     private String password;
-    private Schedule schedule;
 }
