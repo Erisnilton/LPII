@@ -1,4 +1,0 @@
-spring:
-  data:
-    mongodb:
-      uri: mongodb+srv://erisnilton:8uMzhE1viQ3P0oRx@dis-lpii-cluster-01.70gok.mongodb.net/lp2
