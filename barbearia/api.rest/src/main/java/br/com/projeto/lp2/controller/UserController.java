@@ -22,7 +22,6 @@ public record UserController(
 
     @GetMapping("{id}")
     public User getUserById(@PathVariable String id) {
-        System.out.println("aqui!1");
         return getUsersPort.apply(id);
     }
 
