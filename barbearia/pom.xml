@@ -6,7 +6,7 @@
     <packaging>pom</packaging>
 
     <modules>
-		<module>api-rest</module>
+		<module>api.rest</module>
 		<module>core</module>
 		<module>repository.mongodb</module>
 	</modules>

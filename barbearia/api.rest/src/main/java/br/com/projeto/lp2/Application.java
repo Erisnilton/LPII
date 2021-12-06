@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
 @EnableAsync
-@EnableAutoConfiguration(exclude = MongoAutoConfiguration.class)git
+@EnableAutoConfiguration(exclude = MongoAutoConfiguration.class)
 public class Application {
 
     public static void main(String[] args) {
