@@ -10,7 +10,7 @@ import java.util.Optional;
 @Service
 public record UpdateUserUS(UserRepositoryPort repository) implements UpadateUserPort {
     @Override
-    public User apply(String id, User user) {
+    public Optional<User> apply(String id, User user) {
         if (user == null || id == null) {
             throw new IllegalArgumentException("Erro ao atualizar o usuário");
         }
@@ -23,9 +23,9 @@ public record UpdateUserUS(UserRepositoryPort repository) implements UpadateUser
             userUpdating.setAddress(user.getAddress());
             userUpdating.setPassword(user.getPassword());
 
-            return repository.save(userUpdating);
+            return Optional.ofNullable(repository.save(userUpdating));
 
         }
-        return  null;
+        return  Optional.empty();
     }
 }

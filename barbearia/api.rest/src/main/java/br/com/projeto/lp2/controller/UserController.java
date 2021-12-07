@@ -7,11 +7,13 @@ import br.com.projeto.lp2.core.ports.driver.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("users")
@@ -29,7 +31,8 @@ public record UserController(
         var userSaved = createUserPort.apply(user);
         var userResponse = new UserResponse().fromUser(userSaved);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("{/id}").buildAndExpand(userSaved.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.
+                fromCurrentRequestUri().path("{/id}").buildAndExpand(userSaved.getId()).toUri();
         response.setHeader("Location", uri.toASCIIString());
 
         return ResponseEntity.created(uri).body(userResponse);
@@ -37,8 +40,10 @@ public record UserController(
 
     @GetMapping("{id}")
     public ResponseEntity<UserResponse> getUserById(@PathVariable String id) {
-        User user = getUserByIdPort.apply(id);
-        return ResponseEntity.ok(new UserResponse().fromUser(user));
+        return getUserByIdPort.apply(id)
+                .map(user -> ResponseEntity.ok(new UserResponse().fromUser(user)))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
     }
 
     @GetMapping
@@ -53,16 +58,14 @@ public record UserController(
             throw new IllegalArgumentException("Erro ao atualizar o usuario");
         }
         User user = request.toUser();
-        User userUpdated = upadateUser.apply(id, user);
-        return ResponseEntity.ok(new UserResponse().fromUser(userUpdated));
+        Optional<User> userOptional = upadateUser.apply(id, user);
+        return userOptional.map(value -> ResponseEntity.ok(new UserResponse().fromUser(value))).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable String id) {
-        if(id == null) {
-            throw new IllegalArgumentException("Usuario Inexistente");
-        }
+        getUserByIdPort.apply(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         deleteUserPort.apply(id);
     }
 }

@@ -6,5 +6,5 @@ import java.util.Optional;
 
 
 public interface UpadateUserPort {
-    User apply(String id, User user);
+    Optional<User> apply(String id, User user);
 }
