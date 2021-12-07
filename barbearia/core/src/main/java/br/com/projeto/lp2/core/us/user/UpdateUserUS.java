@@ -1,8 +1,8 @@
-package br.com.projeto.lp2.core.us;
+package br.com.projeto.lp2.core.us.user;
 
 import br.com.projeto.lp2.core.domain.User;
 import br.com.projeto.lp2.core.ports.driven.repository.UserRepositoryPort;
-import br.com.projeto.lp2.core.ports.driver.UpadateUserPort;
+import br.com.projeto.lp2.core.ports.driver.user.UpadateUserPort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

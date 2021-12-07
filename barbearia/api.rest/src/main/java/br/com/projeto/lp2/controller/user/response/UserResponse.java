@@ -1,4 +1,4 @@
-package br.com.projeto.lp2.controller.response;
+package br.com.projeto.lp2.controller.user.response;
 
 import br.com.projeto.lp2.core.domain.Address;
 import br.com.projeto.lp2.core.domain.User;

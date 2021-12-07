@@ -1,9 +1,9 @@
-package br.com.projeto.lp2.controller;
+package br.com.projeto.lp2.controller.user;
 
-import br.com.projeto.lp2.controller.request.UserRequest;
-import br.com.projeto.lp2.controller.response.UserResponse;
+import br.com.projeto.lp2.controller.user.request.UserRequest;
+import br.com.projeto.lp2.controller.user.response.UserResponse;
 import br.com.projeto.lp2.core.domain.User;
-import br.com.projeto.lp2.core.ports.driver.*;
+import br.com.projeto.lp2.core.ports.driver.user.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
