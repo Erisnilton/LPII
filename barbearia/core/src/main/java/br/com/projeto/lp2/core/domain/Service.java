@@ -16,5 +16,4 @@ public class Service {
     private String name;
     private BigDecimal price;
     private BigDecimal duration;
-
 }
