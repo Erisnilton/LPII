@@ -9,4 +9,8 @@ public interface UserRepositoryPort {
     User save(User user);
 
     Optional<User> findById(String id);
+
+    List<User> findAll();
+
+    void deleteById(String id);
 }
