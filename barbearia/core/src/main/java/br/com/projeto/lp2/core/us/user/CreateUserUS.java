@@ -11,6 +11,9 @@ public record CreateUserUS(UserRepositoryPort repository)  implements CreateUser
 
     @Override
     public User apply(User user) {
+        if(repository.existsByEmail(user.getEmail())) {
+            throw new IllegalArgumentException("Email já cadastrado");
+        }
         return repository.save(user);
     }
 }
