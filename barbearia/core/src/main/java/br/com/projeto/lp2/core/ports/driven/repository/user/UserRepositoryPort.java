@@ -1,4 +1,4 @@
-package br.com.projeto.lp2.core.ports.driven.repository;
+package br.com.projeto.lp2.core.ports.driven.repository.user;
 
 import br.com.projeto.lp2.core.domain.User;
 
