@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -26,23 +27,24 @@ public record UserController(
 )
 {
     @PostMapping
-    public ResponseEntity<UserResponse> post(@RequestBody UserRequest request, HttpServletResponse response) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserResponse post(@RequestBody @Valid UserRequest request) {
         var user = request.toUser();
         var userSaved = createUserPort.apply(user);
-        var userResponse = new UserResponse().fromUser(userSaved);
+       return new UserResponse().fromUser(userSaved);
 
-        URI uri = ServletUriComponentsBuilder.
-                fromCurrentRequestUri().path("{/id}").buildAndExpand(userSaved.getId()).toUri();
-        response.setHeader("Location", uri.toASCIIString());
+//        URI uri = ServletUriComponentsBuilder.
+//                fromCurrentRequestUri().path("{/id}").buildAndExpand(userSaved.getId()).toUri();
+//        response.setHeader("Location", uri.toASCIIString());
 
-        return ResponseEntity.created(uri).body(userResponse);
+//        return ResponseEntity.created(uri).body(userResponse);
+
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<UserResponse> getUserById(@PathVariable String id) {
-        return getUserByIdPort.apply(id)
-                .map(user -> ResponseEntity.ok(new UserResponse().fromUser(user)))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    public UserResponse getUserById(@PathVariable String id) {
+        User user = getUserByIdPort.apply(id);
+        return new UserResponse().fromUser(user);
 
     }
 
@@ -53,10 +55,7 @@ public record UserController(
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable String id, @RequestBody UserRequest request) {
-        if(request == null || id == null) {
-            throw new IllegalArgumentException("Erro ao atualizar o usuario");
-        }
+    public ResponseEntity<UserResponse> updateUser(@PathVariable String id, @RequestBody @Valid  UserRequest request) {
         User user = request.toUser();
         Optional<User> userOptional = upadateUser.apply(id, user);
         return userOptional.map(value -> ResponseEntity.ok(new UserResponse().fromUser(value))).orElseGet(() -> ResponseEntity.notFound().build());
@@ -65,7 +64,6 @@ public record UserController(
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable String id) {
-        getUserByIdPort.apply(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         deleteUserPort.apply(id);
     }
 }
