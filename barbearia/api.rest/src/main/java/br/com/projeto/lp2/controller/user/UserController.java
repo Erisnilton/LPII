@@ -7,12 +7,8 @@ import br.com.projeto.lp2.core.ports.driver.user.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,13 +28,6 @@ public record UserController(
         var user = request.toUser();
         var userSaved = createUserPort.apply(user);
        return new UserResponse().fromUser(userSaved);
-
-//        URI uri = ServletUriComponentsBuilder.
-//                fromCurrentRequestUri().path("{/id}").buildAndExpand(userSaved.getId()).toUri();
-//        response.setHeader("Location", uri.toASCIIString());
-
-//        return ResponseEntity.created(uri).body(userResponse);
-
     }
 
     @GetMapping("{id}")
