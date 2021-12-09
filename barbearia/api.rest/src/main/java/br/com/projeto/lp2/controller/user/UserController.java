@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("users")
@@ -44,10 +43,9 @@ public record UserController(
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable String id, @RequestBody @Valid  UserRequest request) {
+    public UserResponse updateUser(@PathVariable String id, @RequestBody @Valid  UserRequest request) {
         User user = request.toUser();
-        Optional<User> userOptional = upadateUser.apply(id, user);
-        return userOptional.map(value -> ResponseEntity.ok(new UserResponse().fromUser(value))).orElseGet(() -> ResponseEntity.notFound().build());
+        return new UserResponse().fromUser(upadateUser.apply(id, user));
     }
 
     @DeleteMapping("{id}")

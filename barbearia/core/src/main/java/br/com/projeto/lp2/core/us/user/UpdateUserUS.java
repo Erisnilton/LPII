@@ -10,19 +10,15 @@ import java.util.Optional;
 @Service
 public record UpdateUserUS(UserRepositoryPort repository) implements UpadateUserPort {
     @Override
-    public Optional<User> apply(String id, User user) {
+    public User apply(String id, User user) {
 
         Optional<User> userForUpdate = repository.findById(id);
-        if (userForUpdate.isPresent()) {
-            User userUpdating = userForUpdate.get();
+        return userForUpdate.map(userUpdating -> {
             userUpdating.setName(user.getName());
             userUpdating.setEmail(user.getEmail());
+            userUpdating.setPhone(user.getPhone());
             userUpdating.setAddress(user.getAddress());
-            userUpdating.setPassword(user.getPassword());
-
-            return Optional.ofNullable(repository.save(userUpdating));
-
-        }
-        return  Optional.empty();
+            return repository.save(userUpdating);
+        }).orElseThrow(() -> new IllegalArgumentException("Não foi possivel utualizar o usuário."));
     }
 }
