@@ -5,5 +5,5 @@ import br.com.projeto.lp2.core.domain.Service;
 import java.util.Optional;
 
 public interface UpdateServicePort {
-    Optional<Service> apply(String id, Service service);
+    Service apply(String id, Service service);
 }

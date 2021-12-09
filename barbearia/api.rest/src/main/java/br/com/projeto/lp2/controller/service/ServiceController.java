@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.Optional;
 
@@ -29,39 +30,29 @@ public record ServiceController(
 
 
     @PostMapping
-    public ResponseEntity<ServiceResponse> post(@RequestBody ServiceRequest request, HttpServletResponse response) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public ServiceResponse post(@RequestBody @Valid  ServiceRequest request) {
         var service = request.toService();
         var serviceSaved = createServicePort.apply(service);
-        var serviceResponse = new ServiceResponse().fromService(serviceSaved);
-
-        URI uri = ServletUriComponentsBuilder.
-                fromCurrentRequestUri().path("{/id}").buildAndExpand(serviceSaved.getId()).toUri();
-        response.setHeader("Location", uri.toASCIIString());
-
-        return ResponseEntity.created(uri).body(serviceResponse);
+        return new ServiceResponse().fromService(serviceSaved);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ServiceResponse> getUserById(@PathVariable String id) {
-        return getServiceByIdPort.apply(id)
-                .map(service -> ResponseEntity.ok(new ServiceResponse().fromService(service)))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    public ServiceResponse getUserById(@PathVariable String id) {
+        Service service = getServiceByIdPort.apply(id);
+        return new ServiceResponse().fromService(service);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ServiceResponse> updateUser(@PathVariable String id, @RequestBody ServiceRequest request) {
-        if(request == null || id == null) {
-            throw new IllegalArgumentException("Erro ao atualizar o usuario");
-        }
+    public ServiceResponse updateUser(@PathVariable String id, @RequestBody ServiceRequest request) {
         Service service = request.toService();
-        Optional<Service> userOptional = updateServicePort.apply(id, service);
-        return userOptional.map(value -> ResponseEntity.ok(new ServiceResponse().fromService(value))).orElseGet(() -> ResponseEntity.notFound().build());
+        Service serviceUpdated = updateServicePort.apply(id, service);
+        return new ServiceResponse().fromService(serviceUpdated);
     }
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable String id) {
-        getServiceByIdPort.apply(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         deleteServiceByIdPort.apply(id);
     }
 }

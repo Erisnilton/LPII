@@ -9,21 +9,13 @@ import java.util.Optional;
 @org.springframework.stereotype.Service
 public record UpdateServiceUS(ServiceRepositoryPort repository) implements UpdateServicePort {
     @Override
-    public Optional<Service> apply(String id, Service service) {
-        if (service == null || id == null) {
-            throw new IllegalArgumentException("Erro ao atualizar o usuário");
-        }
-
-        Optional<Service> userForUpdate = repository.findById(id);
-        if (userForUpdate.isPresent()) {
-            Service serviceUpdating = userForUpdate.get();
+    public Service apply(String id, Service service) {
+        Optional<Service> serviceOptional = repository.findById(id);
+        return serviceOptional.map((serviceUpdating) -> {
             serviceUpdating.setName(service.getName());
             serviceUpdating.setPrice(service.getPrice());
             serviceUpdating.setDuration(service.getDuration());
-
-            return Optional.ofNullable(repository.save(serviceUpdating));
-
-        }
-        return  Optional.empty();
+            return repository.save(serviceUpdating);
+        }).orElseThrow(() -> new IllegalArgumentException("Não foi possivél atualizar o serviço"));
     }
 }
