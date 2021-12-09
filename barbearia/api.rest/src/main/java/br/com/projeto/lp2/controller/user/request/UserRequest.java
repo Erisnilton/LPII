@@ -4,12 +4,19 @@ import br.com.projeto.lp2.core.domain.Address;
 import br.com.projeto.lp2.core.domain.User;
 import lombok.Getter;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 @Getter
 public class UserRequest {
+    @NotBlank
     private String name;
+    @Email
     private String email;
+    @NotBlank
     private String phone;
     private Address address;
+    @NotBlank
     private String password;
 
     public User toUser() {

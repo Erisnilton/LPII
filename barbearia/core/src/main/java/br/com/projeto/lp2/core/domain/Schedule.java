@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.bson.types.ObjectId;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -17,5 +18,5 @@ public class Schedule {
     private Service service;
     private LocalDateTime date;
     private LocalTime hours;
-    private User user;
+    private ObjectId userId;
 }

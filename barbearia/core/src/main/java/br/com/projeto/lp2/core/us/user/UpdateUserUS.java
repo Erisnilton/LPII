@@ -11,9 +11,6 @@ import java.util.Optional;
 public record UpdateUserUS(UserRepositoryPort repository) implements UpadateUserPort {
     @Override
     public Optional<User> apply(String id, User user) {
-        if (user == null || id == null) {
-            throw new IllegalArgumentException("Erro ao atualizar o usuário");
-        }
 
         Optional<User> userForUpdate = repository.findById(id);
         if (userForUpdate.isPresent()) {

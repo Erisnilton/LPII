@@ -10,7 +10,7 @@ import java.util.Optional;
 @Service
 public record GetUserByIdUS(UserRepositoryPort repo ) implements GetUserByIdPort {
     @Override
-    public Optional<User> apply(String id) {
-        return repo.findById(id);
+    public User apply(String id) {
+        return repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado."));
     }
 }
