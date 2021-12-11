@@ -6,6 +6,7 @@ import br.com.projeto.lp2.core.domain.User;
 import br.com.projeto.lp2.core.ports.driver.user.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,13 +19,15 @@ public record UserController(
         GetUserByIdPort getUserByIdPort,
         GetAllUsersPort getUsersPort,
         UpadateUserPort upadateUser,
-        DeleteUserByIdPort deleteUserPort
+        DeleteUserByIdPort deleteUserPort,
+        PasswordEncoder passwordEncoder
 )
 {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponse post(@RequestBody @Valid UserRequest request) {
         var user = request.toUser();
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         var userSaved = createUserPort.apply(user);
        return new UserResponse().fromUser(userSaved);
     }
