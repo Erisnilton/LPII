@@ -12,7 +12,7 @@ import java.time.LocalTime;
 @Getter
 public class ScheduleResquest {
     @NotBlank
-    private Service service;
+    private ObjectId serviceId;
     @NotBlank
     private LocalDateTime date;
     @NotBlank
@@ -22,7 +22,7 @@ public class ScheduleResquest {
 
     public Schedule toSchedule() {
         Schedule schedule = new Schedule();
-        schedule.setService(service);
+        schedule.setServiceId(serviceId);
         schedule.setDate(date);
         schedule.setHours(hours);
         schedule.setUserId(userId);
