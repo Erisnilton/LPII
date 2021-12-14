@@ -3,10 +3,12 @@ package br.com.projeto.lp2.controller.user.request;
 import br.com.projeto.lp2.core.domain.Address;
 import br.com.projeto.lp2.core.domain.User;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+@Setter
 @Getter
 public class UserRequest {
     @NotBlank

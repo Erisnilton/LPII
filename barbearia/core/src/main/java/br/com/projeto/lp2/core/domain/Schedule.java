@@ -15,8 +15,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class Schedule {
     private String id;
-    private Service service;
-    private LocalDateTime date;
-    private LocalTime hours;
-    private ObjectId userId;
+    private ObjectId service;
+    private LocalDateTime time;
+    private ObjectId user;
 }

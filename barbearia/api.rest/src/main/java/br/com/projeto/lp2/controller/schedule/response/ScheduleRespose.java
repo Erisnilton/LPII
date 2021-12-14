@@ -3,6 +3,7 @@ package br.com.projeto.lp2.controller.schedule.response;
 import br.com.projeto.lp2.controller.service.response.ServiceResponse;
 import br.com.projeto.lp2.core.domain.Schedule;
 import br.com.projeto.lp2.core.domain.Service;
+import br.com.projeto.lp2.core.domain.User;
 import lombok.Getter;
 import org.bson.types.ObjectId;
 
@@ -13,17 +14,13 @@ import java.time.LocalTime;
 public class ScheduleRespose {
 
     private String id;
-    private Service service;
-    private LocalDateTime date;
-    private LocalTime hours;
-    private ObjectId userId;
+    private ObjectId serviceId;
+    private LocalDateTime time;
 
     public ScheduleRespose fromSchedule(Schedule schedule) {
         this.id = schedule.getId();
-        this.service = schedule.getService();
-        this.date = schedule.getDate();
-        this.hours = schedule.getHours();
-        this.userId = schedule.getUserId();
+        this.serviceId = schedule.getService();
+        this.time = schedule.getTime();
         return this;
     }
 }

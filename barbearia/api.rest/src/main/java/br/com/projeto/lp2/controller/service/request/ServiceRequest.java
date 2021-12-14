@@ -1,13 +1,13 @@
 package br.com.projeto.lp2.controller.service.request;
 
 import br.com.projeto.lp2.core.domain.Service;
-import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
-@Getter
+@Setter
 public class ServiceRequest {
     @NotBlank
     private String name;
