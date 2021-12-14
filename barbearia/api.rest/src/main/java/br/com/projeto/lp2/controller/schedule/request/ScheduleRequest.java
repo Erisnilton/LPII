@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Setter
+@Getter
 public class ScheduleRequest {
     @NotNull
     private ObjectId serviceId;
