@@ -1,4 +1,4 @@
-<img alt="Logo of the project" height="110" src="./api.rest/src/main/resources/asserts/logo.png" title="Logo baber savio" width="110"/>
+<img alt="Logo of the project" height="90" src="./api.rest/src/main/resources/asserts/logo.png" title="Logo baber savio" width="90"/>
 
 # BarberShop
 > Barbearia Savio
