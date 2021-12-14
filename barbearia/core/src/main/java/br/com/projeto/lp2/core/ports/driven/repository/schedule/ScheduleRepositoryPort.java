@@ -11,4 +11,6 @@ public interface ScheduleRepositoryPort {
     List<Schedule> findAll();
 
     Optional<Schedule> findById(String id);
+
+    void deleteScheduleById(String id);
 }
