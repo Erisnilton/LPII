@@ -6,10 +6,7 @@ import br.com.projeto.lp2.controller.user.request.UserRequest;
 import br.com.projeto.lp2.controller.user.response.UserResponse;
 import br.com.projeto.lp2.core.domain.Schedule;
 import br.com.projeto.lp2.core.domain.User;
-import br.com.projeto.lp2.core.ports.driver.schedule.CreateSchedulePort;
-import br.com.projeto.lp2.core.ports.driver.schedule.GetScheduleByIdPort;
-import br.com.projeto.lp2.core.ports.driver.schedule.GetScheduleByUserPort;
-import br.com.projeto.lp2.core.ports.driver.schedule.UpdateSchedulePort;
+import br.com.projeto.lp2.core.ports.driver.schedule.*;
 import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +20,8 @@ public record ScheduleController(
         CreateSchedulePort createSchedulePort,
         GetScheduleByUserPort getScheduleByUserPort,
         GetScheduleByIdPort getScheduleByIdPort,
-        UpdateSchedulePort upadateSchedulePort
+        UpdateSchedulePort upadateSchedulePort,
+        DeleteSchedulePort deleteSchedulePort
 ){
 
     @PostMapping
@@ -49,6 +47,12 @@ public record ScheduleController(
     public ScheduleRespose updateSchedule(@PathVariable String id, @RequestBody @Valid ScheduleRequest request) {
         var schedule = request.toSchedule();
         return new ScheduleRespose().fromSchedule(upadateSchedulePort.apply(id,schedule));
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteSchedule(@PathVariable String id) {
+        deleteSchedulePort.apply(id);
     }
 
 }
