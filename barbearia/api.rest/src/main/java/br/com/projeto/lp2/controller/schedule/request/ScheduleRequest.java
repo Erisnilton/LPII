@@ -14,8 +14,11 @@ import java.time.LocalTime;
 
 @Setter
 public class ScheduleRequest {
+    @NotNull
     private ObjectId serviceId;
+    @NotNull
     private LocalDateTime time;
+    @NotNull
     private ObjectId userId;
 
     public Schedule toSchedule() {

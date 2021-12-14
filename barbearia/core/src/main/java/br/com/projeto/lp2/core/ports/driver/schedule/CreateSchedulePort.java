@@ -7,6 +7,4 @@ import java.util.List;
 
 public interface CreateSchedulePort {
     Schedule apply(Schedule schedule);
-
-    List<Schedule> findAll(ObjectId id);
 }
