@@ -17,7 +17,7 @@ de corte.
 
 ## Informações Adicionais
 > Esse projeto foi desenvolido para disciplina de Linguagem de Programação II (LPII)
-    , Professor __Thiago Bandeira__, Curso de __Bacharel em Ciencia da Computação__, IFCE campus Aracati.
+    , Professor __Thiago Felippe de Lima Bandeira__, Curso de __Bacharel em Ciencia da Computação__, IFCE campus Aracati.
 <br> <br> Desenvolvido por Erisnilton Freitas || Lidiane Gomes.
 
 
