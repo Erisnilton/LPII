@@ -1,10 +1,14 @@
 package br.com.projeto.lp2.controller.schedule;
 
+import br.com.projeto.lp2.controller.address.response.AddressResponse;
 import br.com.projeto.lp2.controller.schedule.request.ScheduleRequest;
 import br.com.projeto.lp2.controller.schedule.response.ScheduleRespose;
 import br.com.projeto.lp2.controller.service.response.ServiceResponse;
 import br.com.projeto.lp2.controller.user.response.UserResponse;
+import br.com.projeto.lp2.core.domain.Address;
 import br.com.projeto.lp2.core.domain.Schedule;
+import br.com.projeto.lp2.core.domain.User;
+import br.com.projeto.lp2.core.ports.driver.addresss.GetAddressByIdPort;
 import br.com.projeto.lp2.core.ports.driver.schedule.*;
 import br.com.projeto.lp2.core.ports.driver.service.GetServiceByIdPort;
 import br.com.projeto.lp2.core.ports.driver.user.GetUserByIdPort;
@@ -27,7 +31,8 @@ public record ScheduleController(
         UpdateSchedulePort upadateSchedulePort,
         DeleteSchedulePort deleteSchedulePort,
         GetUserByIdPort getUserByIdPort,
-        GetServiceByIdPort getServiceByIdPort
+        GetServiceByIdPort getServiceByIdPort,
+        GetAddressByIdPort getAddressByIdPort
 ){
 
     @PostMapping
@@ -71,7 +76,12 @@ public record ScheduleController(
     @PutMapping("{id}")
     public ScheduleRespose updateSchedule(@PathVariable String id, @RequestBody @Valid ScheduleRequest request) {
         var schedule = request.toSchedule();
-        return new ScheduleRespose().fromSchedule(upadateSchedulePort.apply(id,schedule), null, null);
+        return new ScheduleRespose()
+                .fromSchedule(
+                        upadateSchedulePort.apply(id,schedule),
+                        getServiceBySchedule(request),
+                        getUserBySchedule(request)
+                );
     }
 
     @DeleteMapping("{id}")
@@ -86,7 +96,8 @@ public record ScheduleController(
     }
 
     private UserResponse getUserBySchedule(ScheduleRequest request) {
-        return new UserResponse().fromUser(getUserByIdPort.apply(request.getUserId().toString()));
+        var user = getUserByIdPort.apply(request.getUserId().toString());
+        return new UserResponse().fromUser(user);
     }
 
 }
