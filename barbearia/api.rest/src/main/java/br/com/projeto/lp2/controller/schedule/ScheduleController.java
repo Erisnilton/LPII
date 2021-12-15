@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Locale;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @RestController
@@ -41,17 +43,29 @@ public record ScheduleController(
     @GetMapping("user/{id}")
     public List<ScheduleRespose> getScheduleByUser(@PathVariable ObjectId id) {
         List<Schedule> schedules = getScheduleByUserPort.aplly(id);
+        Function<Schedule, ScheduleRespose> scheduleForResponse = schedule -> new ScheduleRespose()
+                .fromSchedule(
+                        schedule,
+                        new ServiceResponse().fromService(getServiceByIdPort().apply(schedule.getService().toString())),
+                        new UserResponse().fromUser(getUserByIdPort.apply(schedule.getUser().toString())));
         return schedules.stream()
-                .map(schedule -> new ScheduleRespose()
-                        .fromSchedule(schedule, null , null))
+                .map(scheduleForResponse)
                 .collect(Collectors.toList());
 
     }
 
     @GetMapping("{id}")
     public ScheduleRespose getSchedule(@PathVariable String id){
-        Schedule schedule = getScheduleByIdPort.apply(id);
-        return new ScheduleRespose().fromSchedule(schedule, null, null);
+
+        var schedule = getScheduleByIdPort.apply(id);
+        var service =
+                new ServiceResponse().
+                        fromService(getServiceByIdPort.apply(schedule.getService().toString()));
+
+        var user =
+                new UserResponse()
+                        .fromUser(getUserByIdPort.apply(schedule.getUser().toString()));
+        return new ScheduleRespose().fromSchedule(schedule, service, user);
     }
 
     @PutMapping("{id}")
