@@ -1,6 +1,7 @@
 package br.com.projeto.lp2.core.ports.driven.repository.schedule;
 
 import br.com.projeto.lp2.core.domain.Schedule;
+import br.com.projeto.lp2.core.domain.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +12,7 @@ public interface ScheduleRepositoryPort {
     List<Schedule> findAll();
 
     Optional<Schedule> findById(String id);
+    Optional<User> findByUserId(String userId);
 
     void deleteScheduleById(String id);
 }

@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface GetScheduleByUserPort {
 
-    List<Schedule> aplly(ObjectId id);
+    List<Schedule> aplly(ObjectId userId);
 }

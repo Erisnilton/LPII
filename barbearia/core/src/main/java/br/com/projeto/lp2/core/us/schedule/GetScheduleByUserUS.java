@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
 @Service
 public record GetScheduleByUserUS(ScheduleRepositoryPort repository) implements GetScheduleByUserPort {
     @Override
-    public List<Schedule> aplly(ObjectId id) {
+    public List<Schedule> aplly(ObjectId userId) {
 
         return repository.findAll()
                 .stream()
-                .filter(schedule -> schedule.getUser().equals(id))
+                .filter(schedule -> schedule.getUser().equals(userId))
                 .collect(Collectors.toList());
         }
 }
